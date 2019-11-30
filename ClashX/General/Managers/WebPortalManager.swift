@@ -212,7 +212,7 @@ class WebPortalManager {
                 config.updateTime = Date()
                 RemoteConfigManager.shared.saveConfigs()
                 ConfigManager.selectConfigName = config.name
-                NotificationCenter.default.post(Notification(name: kShouldUpDateConfig))
+                AppDelegate.shared.updateConfig()
             })
         }
     }

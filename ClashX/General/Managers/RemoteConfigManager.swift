@@ -125,9 +125,7 @@ class RemoteConfigManager {
                             NSUserNotificationCenter.default
                                 .post(title: NSLocalizedString("Remote Config Update", comment: ""), info: info)
                         }
-                        NotificationCenter.default.post(name: kShouldUpDateConfig,
-                                                        object: nil,
-                                                        userInfo: ["notification": false])
+                        AppDelegate.shared.updateConfig(showNotification: false)
                     }
                 }
                 Logger.log("[Auto Upgrade] Finish \(config.name) result: \(error ?? "succeed")")
@@ -155,7 +153,7 @@ class RemoteConfigManager {
 
     static func updateConfig(config: RemoteConfigModel, complete: ((String?) -> Void)? = nil) {
         getRemoteConfigData(config: config) { configString in
-            guard let newConfig = configString else {
+            guard let newConfig = configString?.trimed() else {
                 complete?(NSLocalizedString("Download fail", comment: ""))
                 return
             }
